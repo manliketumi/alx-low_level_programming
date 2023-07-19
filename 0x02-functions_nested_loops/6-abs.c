@@ -1,16 +1,21 @@
 #include "main.h"
 /**
-* _abs - function to find the absolute value of a number
-* @a: function parameter
-* Return: -a or a;
+* _abs - Computers the absolute value of a number
+* of integer
+*
+* @i: input number as an integer
+*
+* Return: absolute value
 */
 
-int _abs(int a)
+int _abs(int i)
 {
-	if (a < 0)
-		return (-a);
-	else if (a >= 0)
+	if (i >= 0)
 	{
-		return (a);
+		return (i);
+	}
+	else
+	{
+		return (i * -1);
 	}
 }
