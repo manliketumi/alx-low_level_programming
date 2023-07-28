@@ -1,4 +1,5 @@
-
+#ifndef FILE_MAIN
+#define FILE_MAIN
 
 #include <stdio.h>
 
@@ -12,3 +13,4 @@ char *string_toupper(char *);
 char *cap_string(char *);
 
 
+#endif
