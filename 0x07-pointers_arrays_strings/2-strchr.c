@@ -9,6 +9,18 @@
 
 char *_strchr(char *s, char c)
 {
+	int t;
 
-	return (c);
+	while (1)
+	{
+		t = *s++;
+		if (t == c)
+		{
+			return (s - 1);
+		}
+		if (t == 0)
+		{
+			return (NULL);
+		}
+	}
 }
