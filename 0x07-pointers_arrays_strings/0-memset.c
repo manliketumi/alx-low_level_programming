@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 /**
  * _memset - fills memory constant byte
  * @s: bytes of the pointed memory
