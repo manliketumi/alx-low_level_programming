@@ -1,10 +1,10 @@
 #include "main.h"
-#include <stddef.h>
+#include <stdio.h>
 /**
  * _strpbrk - function that searches a string for
  * any of a set of bytes
- * @s: string
- * @accept:any bytes in a string
+ * @s: string to search
+ * @accept: any bytes in a string
  * Return: NULL
  */
 
