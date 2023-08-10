@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <string.h>
 /**
  * string_nconcat - concentrate on two string
  * @s1: first string
@@ -10,20 +11,32 @@
 
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	char *siri = s1;
+	char *siri;
+	unsigned int a, b, i, j;
 
-	while (*siri != '\0')
-	{
-		siri++;
-	}
-	while (*s2 != '\0' && n > 0)
-	{
-		*siri = *s2;
-		siri++;
-		s2++;
-		n--;
-	}
-	*siri = '\0';
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+	a = strlen(s1);
+	b = strlen(s2);
 
-	return (s1);
+	if (n >= b)
+		n = b;
+
+	siri = malloc(a + n + 1);
+	if (siri == NULL)
+	{
+		return (NULL);
+	}
+		for (i = 0; i < a; i++)
+			siri[i] = s1[i];
+
+	{
+		for (j = 0; j < n; j++)
+			siri[i + j] = s2[j];
+	}
+	siri[i + j] = '\0';
+
+	return (siri);
 }
