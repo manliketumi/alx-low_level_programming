@@ -1,5 +1,5 @@
-#ifdef OBJECT_LIKE_MACRO_H
-#define OBJECT_LIKE_MACRO_H
+#ifdef HEADER_FILE
+#define HEADER_FILE
 
 #define SIZE 1024
 
