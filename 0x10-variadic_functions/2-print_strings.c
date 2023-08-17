@@ -1,5 +1,6 @@
 #include "variadic_functions.h"
 #include <stdarg.h>
+
 /**
  * print_strings - function that print strings
  * @separator: where string to be printed between strings
@@ -19,7 +20,7 @@ void print_strings(const char *separator, const unsigned int n, ...)
 		str = va_arg(args, const char *);
 
 		if (str == NULL)
-			printf("nill");
+			printf("(nill)");
 		else
 			printf("%s", str);
 		if (separator != NULL && i < n - 1)
