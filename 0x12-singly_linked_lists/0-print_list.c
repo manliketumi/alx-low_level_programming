@@ -4,8 +4,8 @@
 #include <string.h>
 /**
  * print_list - function print all elements in list_t list
- *
  * @h: a pointer to head
+ *
  * Return: number of nodes
  */
 
