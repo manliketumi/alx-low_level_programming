@@ -7,14 +7,16 @@
  */
 int get_endianness(void)
 {
-	union
+	unsigned int num = 0x01;
+
+	unsigned char *byte_ptr = (unsigned char *)&num;
+
+	if (*byte_ptr == 1)
 	{
-		unsigned int value;
-		unsigned char bytes[4];
+		return (1);
 	}
-	u;
-
-	u.value = 1;
-
-	return (u.bytes[0] == 0x01);
+	else
+	{
+		return (0);
+	}
 }
