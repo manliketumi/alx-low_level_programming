@@ -1,89 +1,51 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <elf.h>
-#include <unistd.h>
-#include <string.h>
-
+#include "main.h"
 /**
- * print_error - function read an error
- * @error_message: the error message to be printed
- *
- * Return: void
- */
-void print_error(const char *error_message)
-{
-	fprintf(stderr, "%s\n", error_message);
-	exit(98);
-}
-
-/**
- * print_elf_header - function displays elf header
- * @header: the header to be displayed in 64 bit
- *
- * Return: void
- */
-void print_elf_header(const Elf64_Ehdr header)
-{
-	int i;
-
-	printf("Magic: ");
-
-	for (i = 0; i < EI_NIDENT; i++)
-	{
-		printf("%02x ", header.e_ident[i]);
-	}
-	printf("\nClass: %d\n ", (header.e_ident[EI_CLASS] == ELFCLASS32));
-	printf("Data: %d\n ", (header.e_ident[EI_DATA] == ELFDATA2LSB));
-	printf("Version: %d\n ", header.e_ident[EI_VERSION]);
-	printf("OS/ABI: %d\n ", header.e_ident[EI_OSABI]);
-	printf("ABI Version: %d\n ", header.e_ident[EI_ABIVERSION]);
-	printf("Type: %d\n ", header.e_type);
-	printf("Entry point address: 0x%lx\n ", header.e_entry);
-}
-
-/**
- * main - Entry point
- * @argc: argument command to ELF header
- * @argv: command to the value
+ * main -Entry point
+ * @argc: argument command
+ * @argv: argument value
  * Return: 0 on success
  */
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-	Elf64_Ehdr *header;
-	int o, r;
+int i, fd;
+unsigned char e_ident[16];
+uint16_t e_type;
+uint64_t e_entry;
 
-	if (argc < 2)
-	{
-		dprintf(STDERR_FILENO, "Error: Usage: %s <filename>\n", argv[0]);
-		exit(1);
-	}
+if (argc != 2)
+{
+fprintf(stderr, "Usage: elf_header elf_filename\n");
+return (98);
+}
+fd = open(argv[1], O_RDONLY);
 
-	o = open(argv[1], O_RDONLY);
+if (fd < 0)
+{
+perror("Error opening file");
+return (98);
+}
 
-	if (o == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	header = malloc(sizeof(Elf64_Ehdr));
+if (read(fd, e_ident, 16) != 16 || e_ident[0] != 0x7f || strncmp((char *)&e_ident[1], "ELF", 3) != 0)
+{
+fprintf(stderr, "Not an ELF file\n");
+return (98);
+}
 
-	if (header == NULL)
-	{
-		close(o);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
-	r = read(o, header, sizeof(Elf64_Ehdr));
-	if (r == -1)
-	{
-		free(header);
-		close(o);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
-		exit(98);
-	}
-	return (r);
+lseek(fd, 4, SEEK_SET);
+
+if (read(fd, &e_type, 2) != 2 || read(fd, &e_entry, 8) != 8)
+{
+perror("Error reading file");
+return (98);
+}
+
+printf("ELF Header:\n");
+printf("  Magic:   ");
+for (i = 0; i < 16; i++)
+printf("%02x ", e_ident[i]);
+printf("\n  Type: %x\n", e_type);
+printf("Entry point address: 0x%lx\n", e_entry);
+
+close(fd);
+return (0);
 }
